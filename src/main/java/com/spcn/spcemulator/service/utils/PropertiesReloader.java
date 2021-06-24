@@ -1,4 +1,4 @@
-package com.spcn.spcemulator.service.utility;
+package com.spcn.spcemulator.service.utils;
 
 import lombok.Cleanup;
 import org.slf4j.Logger;

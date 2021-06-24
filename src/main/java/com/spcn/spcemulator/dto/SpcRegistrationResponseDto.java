@@ -1,17 +1,11 @@
 package com.spcn.spcemulator.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class SpcRegistrationResponseDto {
-    private boolean spcRegistratedSuccessfully;
+    private boolean successfulRegistration;
 
-    public SpcRegistrationResponseDto(boolean spcRegistratedSuccessfully) {
-        this.spcRegistratedSuccessfully = spcRegistratedSuccessfully;
-    }
-
-    public boolean isSpcRegistratedSuccessfully() {
-        return spcRegistratedSuccessfully;
-    }
-
-    public void setSpcRegistratedSuccessfully(boolean spcRegistratedSuccessfully) {
-        this.spcRegistratedSuccessfully = spcRegistratedSuccessfully;
-    }
 }

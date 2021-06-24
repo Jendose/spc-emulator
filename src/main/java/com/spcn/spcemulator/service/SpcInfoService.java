@@ -1,19 +1,39 @@
 package com.spcn.spcemulator.service;
 
-import com.spcn.spcemulator.dto.SpcInfoDto;
+import com.spcn.spcemulator.service.utils.SpcInfoWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class SpcInfoService {
-    public SpcInfoDto readInfo(){
-        // Hardcoded
-        Map<LocalDateTime, Boolean> info = new HashMap<>();
-        info.put(LocalDateTime.of(2020,8,20,12,50), true);
-        info.put(LocalDateTime.of(2020,8,20,12,52), false);
-        return new SpcInfoDto(info);
+
+    private static final Logger log = LoggerFactory.getLogger(SpcInfoService.class);
+
+    private enum CoverPosition{
+        OPENED,
+        CLOSED
+    }
+
+    private CoverPosition currentCoverPosition = CoverPosition.CLOSED;
+
+    public void writeOpening(){
+        if (currentCoverPosition.equals(CoverPosition.CLOSED)){
+            currentCoverPosition = CoverPosition.OPENED;
+            SpcInfoWriter.writeOpening();
+            log.info("Вы открыли крышку");
+            log.info("Текущий счет: " + SpcInfoWriter.getInfo());
+        }
+        else log.info("Крышка уже открыта");
+    }
+
+    public void writeClosing(){
+        if (currentCoverPosition.equals(CoverPosition.OPENED)){
+            currentCoverPosition = CoverPosition.CLOSED;
+            SpcInfoWriter.writeClosing();
+            log.info("Вы закрыли крышку");
+            log.info("Текущий счет: " + SpcInfoWriter.getInfo());
+        }
+        else log.info("Крышка ещё не открыта");
     }
 }

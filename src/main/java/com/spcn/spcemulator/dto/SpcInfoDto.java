@@ -1,20 +1,14 @@
 package com.spcn.spcemulator.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.util.Map;
 
+@Data
+@AllArgsConstructor
 public class SpcInfoDto {
-    private Map<LocalDateTime, Boolean> info;
+    private Integer info;
 
-    public SpcInfoDto(Map<LocalDateTime, Boolean> info) {
-        this.info = info;
-    }
-
-    public Map<LocalDateTime, Boolean> getInfo() {
-        return info;
-    }
-
-    public void setInfo(Map<LocalDateTime, Boolean> info) {
-        this.info = info;
-    }
 }

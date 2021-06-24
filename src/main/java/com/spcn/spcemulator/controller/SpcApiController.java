@@ -1,9 +1,8 @@
 package com.spcn.spcemulator.controller;
 
-import com.spcn.spcemulator.dto.SpcAlarmDto;
-import com.spcn.spcemulator.dto.SpcInfoDto;
-import com.spcn.spcemulator.service.SpcAlarmService;
-import com.spcn.spcemulator.service.SpcInfoService;
+import com.spcn.spcemulator.service.SpcService;
+import com.spcn.spcemulator.service.SpcConnectionTestService;
+import com.spcn.spcemulator.service.utils.SpcInfoWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,26 +11,28 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SpcApiController {
-    private final SpcAlarmService spcAlarmService;
-    private final SpcInfoService spcInfoService;
+
+    private final SpcConnectionTestService spcConnectionTestService;
+    private final SpcService spcService;
 
     @Autowired
-    public SpcApiController(SpcAlarmService spcAlarmService, SpcInfoService spcInfoService) {
-        this.spcAlarmService = spcAlarmService;
-        this.spcInfoService = spcInfoService;
+    public SpcApiController(SpcConnectionTestService spcConnectionTestService, SpcService spcService) {
+        this.spcConnectionTestService = spcConnectionTestService;
+        this.spcService = spcService;
     }
 
-    @GetMapping("/alarm")
-    public ResponseEntity<SpcAlarmDto> startAlarm(){
-        System.out.println("\nПолучен сигнал о начале приема");
-        System.out.println("Отправлен ответ");
-        return new ResponseEntity<>(spcAlarmService.startAlarm(), HttpStatus.OK);
+    @GetMapping("/connectionTest")
+    public ResponseEntity<Boolean> testConnection(){
+        return new ResponseEntity<>(spcConnectionTestService.testConnection(), HttpStatus.OK);
     }
 
-    @GetMapping("/info")
-    public ResponseEntity<SpcInfoDto> readInfo(){
-        System.out.println("\nЗапрошена информация о приеме");
-        System.out.println("Отправлен ответ");
-        return new ResponseEntity<>(spcInfoService.readInfo(), HttpStatus.OK);
+    @GetMapping("/startTake")
+    public ResponseEntity<Boolean> startTake(){
+        return new ResponseEntity<>(spcService.startTake(), HttpStatus.OK);
+    }
+
+    @GetMapping("/endTake")
+    public ResponseEntity<Integer> endTake(){
+        return new ResponseEntity<>(spcService.endTake().getInfo(), HttpStatus.OK);
     }
 }
